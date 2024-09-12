@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import WeatherInfo from "./WeatherInfo";
 import WeatherCard from "./WeatherInfo";
 
 export default function () {
@@ -20,7 +19,7 @@ export default function () {
     <>
       <div className="max-w-screen-xl mx-auto dark:bg-gray-800 p-10 flex flex-col justify-around lg:flex-row gap-10">
         <div className="flex-1">
-          <WeatherCard />
+          <WeatherCard lat={lat} lon={lon} />
         </div>
         <div className="flex-1">
           <iframe
