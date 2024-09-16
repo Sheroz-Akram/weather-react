@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import WeatherCard from "./WeatherInfo";
 
-export default function () {
+export default function WeatherPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
