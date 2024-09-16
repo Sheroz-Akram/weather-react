@@ -17,19 +17,21 @@ export default function WeatherPage() {
 
   return (
     <>
-      <div className="max-w-screen-xl mx-auto dark:bg-gray-800 p-10 flex flex-col justify-around lg:flex-row gap-10">
-        <div className="flex-1">
-          <WeatherCard lat={lat} lon={lon} />
-        </div>
-        <div className="flex-1">
-          <iframe
-            src={`//maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`}
-            className="w-full h-96 rounded-xl ring-2 ring-white ring-opacity-40"
-            style={{ border: 0 }}
-            loading="lazy"
-            allowFullScreen
-            title="Google Maps Location"
-          ></iframe>
+      <div className="dark:bg-gray-800">
+        <div className="max-w-screen-xl mx-auto p-10 flex flex-col justify-around lg:flex-row gap-10">
+          <div className="flex-1">
+            <WeatherCard lat={lat} lon={lon} />
+          </div>
+          <div className="flex-1">
+            <iframe
+              src={`//maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`}
+              className="w-full h-96 rounded-xl ring-2 ring-white ring-opacity-40"
+              style={{ border: 0 }}
+              loading="lazy"
+              allowFullScreen
+              title="Google Maps Location"
+            ></iframe>
+          </div>
         </div>
       </div>
     </>

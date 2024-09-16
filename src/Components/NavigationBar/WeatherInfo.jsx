@@ -9,17 +9,62 @@ import {
 } from "react-icons/fa";
 import { FaGauge, FaMoon } from "react-icons/fa6";
 
+// Mapping of timezones and their offsets (UTC+/- hours)
+const timezoneOffsets = {
+  "-12": "Baker Island Time (BIT)",
+  "-11": "Niue Time (NUT), Samoa Standard Time (ST)",
+  "-10": "Hawaii-Aleutian Standard Time (HST)",
+  "-9": "Alaska Standard Time (AKST)",
+  "-8": "Pacific Standard Time (PST)",
+  "-7": "Mountain Standard Time (MST)",
+  "-6": "Central Standard Time (CST)",
+  "-5": "Eastern Standard Time (EST)",
+  "-4": "Atlantic Standard Time (AST)",
+  "-3": "Argentina Time (ART), Brasilia Time (BRT)",
+  "-2": "South Georgia Time (SGT)",
+  "-1": "Azores Time (AZOT)",
+  0: "Greenwich Mean Time (GMT), Coordinated Universal Time (UTC)",
+  1: "Central European Time (CET)",
+  2: "Eastern European Time (EET), Kaliningrad Time (USZ1)",
+  3: "Moscow Time (MSK), East Africa Time (EAT)",
+  4: "Azerbaijan Time (AZT), Samara Time (SAMT)",
+  5: "Pakistan Standard Time (PKT), Yekaterinburg Time (YEKT)",
+  6: "Bangladesh Standard Time (BST), Omsk Time (OMST)",
+  7: "Indochina Time (ICT), Krasnoyarsk Time (KRAT)",
+  8: "China Standard Time (CST), Singapore Time (SGT)",
+  9: "Japan Standard Time (JST), Korea Standard Time (KST)",
+  10: "Australian Eastern Standard Time (AEST), Papua New Guinea Time (PGT)",
+  11: "Solomon Islands Time (SBT), Vanuatu Time (VUT)",
+  12: "New Zealand Standard Time (NZST), Fiji Time (FJT)",
+};
+
+// Function to get timezone name from seconds offset
+function getTimezoneNameFromOffset(seconds) {
+  // Convert seconds to hours
+  const offsetHours = seconds / 3600;
+
+  // Round to the nearest hour
+  const roundedOffset = Math.round(offsetHours);
+
+  // Get timezone name from the mapping
+  return timezoneOffsets[roundedOffset] || "Unknown Timezone";
+}
+
 const WeatherCard = ({ lat, lon }) => {
   const [weatherData, setWeatherData] = useState(null);
   const [foreCastData, setForeCaseData] = useState(null);
   const [localTime, setLocalTime] = useState(new Date());
+  const [timeZoneShift, setTimeZoneShift] = useState(0);
   const [sunrise, setSunRise] = useState(new Date());
   const [sunset, setSunSet] = useState(new Date());
 
   // Convert Unix Time Stamp to Date Object
-  function convertUnixTimestampToDate(timestamp) {
+  function convertUnixTimestampToDate(timestamp, timezoneShift) {
     const date = new Date(timestamp * 1000);
-    return date;
+    const orignalShift = date.getTimezoneOffset() * 60;
+    timestamp += orignalShift + timezoneShift;
+    const shiftedDate = new Date(timestamp * 1000);
+    return shiftedDate;
   }
 
   useEffect(() => {
@@ -35,9 +80,10 @@ const WeatherCard = ({ lat, lon }) => {
         const forCastData = await forCastResponse.json();
         setWeatherData(data);
         setForeCaseData(forCastData);
-        setLocalTime(convertUnixTimestampToDate(data.dt));
-        setSunRise(convertUnixTimestampToDate(data.sys.sunrise));
-        setSunSet(convertUnixTimestampToDate(data.sys.sunset));
+        setTimeZoneShift(data.timezone);
+        setLocalTime(convertUnixTimestampToDate(data.dt, data.timezone));
+        setSunRise(convertUnixTimestampToDate(data.sys.sunrise, data.timezone));
+        setSunSet(convertUnixTimestampToDate(data.sys.sunset, data.timezone));
       } catch (error) {
         console.error("Error fetching weather data:", error);
       }
@@ -150,13 +196,13 @@ const WeatherCard = ({ lat, lon }) => {
         </div>
         <div className="flex mt-4">
           <span className="text-[12px] sm:text-sm text-gray-500 dark:text-gray-300">
-            All time and date is in local time zone:{" "}
-            {Intl.DateTimeFormat().resolvedOptions().timeZone}{" "}
+            Time Zone:{" "}
+            {getTimezoneNameFromOffset(timeZoneShift)}{" "}
           </span>
         </div>
         <div className="grid grid-cols-4 gap-4 mt-4">
           {foreCastData.list.map((value, index) => {
-            let time = convertUnixTimestampToDate(value.dt);
+            let time = convertUnixTimestampToDate(value.dt, timeZoneShift);
             return (
               <>
                 <WeatherTime
