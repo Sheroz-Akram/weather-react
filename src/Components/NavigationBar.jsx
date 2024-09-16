@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "./logo.png";
+import { Link } from "react-router-dom";
 
 export default function NavigationBar() {
   // Application State For Search Query
@@ -11,11 +12,11 @@ export default function NavigationBar() {
       const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
         searchQuery
       )}&format=json&limit=3`;
-    
+
       try {
         const response = await fetch(url);
         const data = await response.json();
-    
+
         // Create List and return it
         let locationData = data.map((value, index) => {
           return {
@@ -29,7 +30,7 @@ export default function NavigationBar() {
         console.error("Error fetching coordinates:", error);
         return null;
       }
-    }
+    };
     if (searchQuery !== "") {
       fetchLocations();
     }
@@ -44,7 +45,10 @@ export default function NavigationBar() {
     <>
       <nav className="bg-gray-200 border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <a
+            href="/"
+            className="flex items-center space-x-3 rtl:space-x-reverse"
+          >
             <img src={logo} className="h-12" alt="Flowbite Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Rush Cloud
@@ -82,22 +86,23 @@ export default function NavigationBar() {
               {searchDropDown.length === 0 ? null : (
                 <div
                   id="dropdown"
-                  class="z-10 absolute hidden md:block mt-2 bg-white divide-y divide-gray-100 rounded-lg w-full shadow dark:bg-gray-700"
+                  className="z-10 absolute hidden md:block mt-2 bg-white divide-y divide-gray-100 rounded-lg w-full shadow dark:bg-gray-700"
                 >
                   <ul
-                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    className="py-2 text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownDefaultButton"
                   >
                     {/* Display Search Query Result */}
                     {searchDropDown.map((value, index) => {
                       return (
                         <li>
-                          <a
-                            href={`?lat=${value.latitude}&lon=${value.longitude}`}
-                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                          >
-                            {value.address}
-                          </a>
+                          <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <Link
+                              to={`?lat=${value.latitude}&lon=${value.longitude}`}
+                            >
+                              {value.address}
+                            </Link>
+                          </span>
                         </li>
                       );
                     })}
@@ -141,22 +146,23 @@ export default function NavigationBar() {
               {searchDropDown.length === 0 ? null : (
                 <div
                   id="dropdown"
-                  class="z-10 absolute md:hidden mt-2 bg-white divide-y divide-gray-100 rounded-lg w-full shadow dark:bg-gray-700"
+                  className="z-10 absolute md:hidden mt-2 bg-white divide-y divide-gray-100 rounded-lg w-full shadow dark:bg-gray-700"
                 >
                   <ul
-                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    className="py-2 text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownDefaultButton"
                   >
                     {/* Display Search Query Result */}
                     {searchDropDown.map((value, index) => {
                       return (
                         <li>
-                          <a
-                            href={`?lat=${value.latitude}&lon=${value.longitude}`}
-                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                          >
-                            {value.address}
-                          </a>
+                          <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <Link
+                              to={`?lat=${value.latitude}&lon=${value.longitude}`}
+                            >
+                              {value.address}
+                            </Link>
+                          </span>
                         </li>
                       );
                     })}

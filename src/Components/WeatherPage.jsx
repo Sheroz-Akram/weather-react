@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import WeatherCard from "./WeatherInfo";
+import NavigationBar from "./NavigationBar";
 
 export default function WeatherPage() {
   const location = useLocation();
@@ -17,6 +18,7 @@ export default function WeatherPage() {
 
   return (
     <>
+      <NavigationBar />
       <div className="dark:bg-gray-800">
         <div className="max-w-screen-xl mx-auto p-10 flex flex-col justify-around lg:flex-row gap-10">
           <div className="flex-1">

@@ -1,18 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import NavigationBar from "./Components/NavigationBar/NavigationBar";
-import WeatherPage from "./Components/NavigationBar/WeatherPage";
+import WeatherPage from "./Components/WeatherPage";
+import Home from "./Components/Home";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
-        <NavigationBar />
-
+      <div className="App dark:bg-gray-800">
         <Routes>
-          <Route index path="/" element={<h1>Home</h1>} />
+          <Route index path="/" element={<Home />} />
           <Route path="/Search" element={<WeatherPage />} />
         </Routes>
+        <Footer />
       </div>
     </BrowserRouter>
   );
