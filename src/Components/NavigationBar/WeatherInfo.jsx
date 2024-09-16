@@ -190,6 +190,7 @@ const WeatherTime = ({ temp, time, period, icon }) => {
       </span>
       <img
         className="h-14 w-14"
+        alt={`weather ${temp}`}
         src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
       />
       <span className="font-semibold mt-1 text-[10px] sm:text-base dark:text-white">

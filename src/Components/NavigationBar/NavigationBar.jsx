@@ -1,21 +1,37 @@
 import { useEffect, useState } from "react";
 import logo from "./logo.png";
-import { useReverseGeoLocation } from "../../Functions/Location";
 
-export default function () {
+export default function NavigationBar() {
   // Application State For Search Query
   let [searchQuery, setSearchQuery] = useState("");
   let [searchDropDown, setSearchDropDown] = useState([]);
 
   useEffect(() => {
-    if (searchQuery !== "") {
+    const fetchLocations = async () => {
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+        searchQuery
+      )}&format=json&limit=3`;
+    
       try {
-        useReverseGeoLocation(searchQuery).then((result) => {
-          setSearchDropDown(result);
+        const response = await fetch(url);
+        const data = await response.json();
+    
+        // Create List and return it
+        let locationData = data.map((value, index) => {
+          return {
+            latitude: value.lat,
+            longitude: value.lon,
+            address: value.display_name,
+          };
         });
+        setSearchDropDown(locationData);
       } catch (error) {
         console.error("Error fetching coordinates:", error);
+        return null;
       }
+    }
+    if (searchQuery !== "") {
+      fetchLocations();
     }
   }, [searchQuery]);
 
