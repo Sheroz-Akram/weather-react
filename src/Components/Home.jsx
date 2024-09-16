@@ -47,7 +47,7 @@ function Home() {
         <input
           type="text"
           id="search-navbar"
-          className="block w-1/2 mb-2 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block w-3/4 sm:w-1/2 mb-2 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search..."
           onChange={handleSearchBar}
           value={searchQuery}
@@ -55,7 +55,7 @@ function Home() {
         {searchDropDown.length === 0 ? null : (
           <div
             id="dropdown"
-            className=" hidden md:block bg-white divide-y divide-gray-100 rounded-lg w-1/2 shadow dark:bg-gray-700"
+            className="bg-white divide-y divide-gray-100 rounded-lg w-3/4 sm:w-1/2 shadow dark:bg-gray-700"
           >
             <ul
               className="py-2 text-sm text-gray-700 dark:text-gray-200"
