@@ -13,7 +13,7 @@ Our Weather App, built with React, lets you easily search for and select cities 
 <img src="images/home.png" />
 <img src="images/weather.png" />
 
-### Installation
+### Setup & Installation
 
 1. **Clone the Repository**
    ```bash
